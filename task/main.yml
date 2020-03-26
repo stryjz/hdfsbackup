@@ -1,0 +1,13 @@
+---
+- name: Upload backup script to spark instances
+  copy:
+    src: "backup.sh"
+    dest: /opt/tools/
+    mode: 755
+
+- name: Configure cron job
+  cron:
+    name: set HDFS backup cron job
+    minute: "50"
+    hour: "00"
+    job: "/opt/tools/backup.sh >> /var/log/backup.log 2>&1"
